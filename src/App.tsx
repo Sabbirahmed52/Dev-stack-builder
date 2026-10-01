@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import Banner from "./components/Banner"
 import Nav from "./components/Nav"
 import Tech from "./components/technologies/Tech";
-import { Etech } from "./types/techType";
+import type { Etech } from "./types/techType";
 // import './App.css'
 
 const techFetch = async ():Promise<Etech[]> => {
