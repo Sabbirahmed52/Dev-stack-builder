@@ -1,16 +1,33 @@
-import React from 'react';
-
+import { type Dispatch, type SetStateAction } from "react";
 import type { Etech } from "../../types/techType";
-
-type Props = {
+import { toast } from "react-toastify";
+import { FaStar } from "react-icons/fa";
+interface EtechCardProps {
   tech: Etech;
-};
+  selectedTech: Etech[];
+  setSelectedTech: Dispatch<SetStateAction<Etech[]>>;
+}
 
-const TechCard = ({ tech }: Props) => {
+export const TechCard = ({
+  tech,
+  selectedTech,
+  setSelectedTech,
+}: EtechCardProps) => {
+
+  const isSelected = selectedTech.some(
+    (item) => item.name === tech.name
+  );
+
+  const handleAddToStack = () => {
+
+    setSelectedTech([...selectedTech, tech]);
+
+    toast.success(`${tech.name} added to your stack!`);
+  };
+
   return (
     <div className="card bg-base-100 w-96 shadow-sm border border-gray-200">
 
-      {/* Icon + Badge */}
       <div className="flex items-center justify-between px-6 pt-6">
 
         <img
@@ -25,20 +42,16 @@ const TechCard = ({ tech }: Props) => {
 
       </div>
 
-      {/* Card Body */}
       <div className="card-body">
 
-        {/* Name */}
         <h2 className="card-title text-2xl">
           {tech.name}
         </h2>
 
-        {/* Description */}
         <p className="text-gray-500">
           {tech.description}
         </p>
 
-        {/* Category + Difficulty */}
         <div className="flex items-center justify-between mt-4">
 
           <span className="badge badge-outline">
@@ -51,25 +64,35 @@ const TechCard = ({ tech }: Props) => {
 
         </div>
 
-        {/* Rating */}
         <div className="mt-3">
-          <span className="text-yellow-500">★</span>
+
+          <FaStar className="text-yellow-500" />
 
           <span className="ml-1 font-medium">
             {tech.rating}
           </span>
+
         </div>
 
-        {/* Button */}
         <div className="card-actions mt-4">
-          <button className="btn btn-primary w-full">
-            Add to Stack
+
+          <button
+            onClick={handleAddToStack}
+            disabled={isSelected}
+            className={`btn w-full ${
+              isSelected ? "btn-success" : "btn-primary"
+            }`}
+          >
+            {isSelected ? "Added" : "Add to Stack"}
           </button>
+
         </div>
 
       </div>
+
     </div>
   );
 };
 
-export default TechCard;
+
+

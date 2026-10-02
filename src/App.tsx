@@ -12,11 +12,11 @@ const techFetch = async ():Promise<Etech[]> => {
   return data;
 }
 
-
+const techPromise = techFetch();
 
 function App() {
  
-  const techPromise = techFetch();
+  
   return (
     <>
        

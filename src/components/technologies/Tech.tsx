@@ -1,17 +1,17 @@
-import React, { use } from 'react';
-import type { Etech } from '../../types/techType';
-import Stack from './Stack';
+import { use, useState } from "react";
+import type { Etech } from "../../types/techType";
+import Stack from "./Stack";
+import { TechCard } from "./techCard";
 
-interface TechProps{
-  techPromise: Promise<Etech[]>
+interface TechProps {
+  techPromise: Promise<Etech[]>;
 }
 
-
 const Tech = ({ techPromise }: TechProps) => {
-  console.log(techPromise);
-
   const tech = use(techPromise);
-  console.log(tech,"tech")
+
+  const [selectedTech, setSelectedTech] = useState<Etech[]>([]);
+
   return (
     <div className="container mx-auto mt-10">
 
@@ -23,16 +23,38 @@ const Tech = ({ techPromise }: TechProps) => {
         </span>
       </h2>
 
-      {/* Description */}
       <p className="mt-4 text-2xl text-slate-500">
         Pick one technology per category to build your ideal stack.
       </p>
 
-      {/* Technology Cards */}
-      <Stack tech={tech} />
+      {/* Cards + Stack */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
+
+        {/* Technology Cards */}
+        <div className="lg:col-span-2 grid grid-cols-2 gap-6">
+          {tech.map((item) => (
+            <TechCard
+              key={item.name}
+              tech={item}
+              selectedTech={selectedTech}
+              setSelectedTech={setSelectedTech}
+            />
+          ))}
+        </div>
+
+        {/* Your Stack */}
+        <div>
+          <Stack
+            selectedTech={selectedTech}
+            setSelectedTech={setSelectedTech}
+          />
+        </div>
+
+      </div>
 
     </div>
   );
 };
 
 export default Tech;
+
