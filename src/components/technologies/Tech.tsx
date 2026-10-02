@@ -1,7 +1,7 @@
 import { use, useState } from "react";
 import type { Etech } from "../../types/techType";
 import Stack from "./Stack";
-import { TechCard } from "./techCard";
+import { TechCard } from './TechCard';
 
 interface TechProps {
   techPromise: Promise<Etech[]>;
